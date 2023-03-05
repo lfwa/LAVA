@@ -84,18 +84,19 @@ def load_pretrained_feature_extractor(feature_extractor_name, device):
     
 # Get dual solution of OT problem
 def get_OT_dual_sol(feature_extractor, trainloader, testloader, training_size=10000, p=2, resize=32, device='cuda'):
-    embedder = feature_extractor.to(device)
-    embedder.fc = torch.nn.Identity()
-    for p in embedder.parameters():
-        p.requires_grad = False
+    if feature_extractor != "euclidean":
+        embedder = feature_extractor.to(device)
+        embedder.fc = torch.nn.Identity()
+        for p in embedder.parameters():
+            p.requires_grad = False
 
-    # Here we use same embedder for both datasets
-    feature_cost = FeatureCost(src_embedding = embedder,
-                               src_dim = (3,resize,resize),
-                               tgt_embedding = embedder,
-                               tgt_dim = (3,resize,resize),
-                               p = 2,
-                               device='cuda')
+        # Here we use same embedder for both datasets
+        feature_cost = FeatureCost(src_embedding = embedder,
+                                   src_dim = (3,resize,resize),
+                                   tgt_embedding = embedder,
+                                   tgt_dim = (3,resize,resize),
+                                   p = 2,
+                                   device='cuda')
 
     dist = DatasetDistance(trainloader, testloader,
                            inner_ot_method = 'exact',
