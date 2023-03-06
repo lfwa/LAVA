@@ -651,7 +651,7 @@ class DatasetDistance():
                 π (tensor, optional): the optimal transport coupling.
 
         """
-        device_dists = self.device
+        device_dists = "cpu" #self.device
         GPU_LIMIT = 10000
         if (self.n1 > GPU_LIMIT or self.n2 > GPU_LIMIT) and maxsamples > GPU_LIMIT and self.device != 'cpu':
             logger.warning('Warning: maxsamples = {} > 5000, and device = {}. Loaded data' \
@@ -727,7 +727,7 @@ class DatasetDistance():
                 W = None
             else:
                 sttar_t = time()
-                W = self._get_label_distances().to(torch.device(device_dists))
+                W = self._get_label_distances()#.to(torch.device("cpu"))
                 
                 to_save = [W]
                 pickle.dump(to_save, open("save_w.txt", "wb") )
@@ -838,7 +838,7 @@ class DatasetDistance():
                 π (tensor, optional): the optimal transport coupling.
 
         """
-        device_dists = self.device
+        device_dists = "cpu"#self.device
         GPU_LIMIT = 10000
         if (self.n1 > GPU_LIMIT or self.n2 > GPU_LIMIT) and maxsamples > GPU_LIMIT and self.device != 'cpu':
             logger.warning('Warning: maxsamples = {} > 5000, and device = {}. Loaded data' \
@@ -915,7 +915,7 @@ class DatasetDistance():
             else:
                 sttar_t = time()
                 print('Calculate the same thing again...')
-                W = self._get_label_distances().to(torch.device(device_dists))
+                W = self._get_label_distances()#.to(torch.device(device_dists))
                 
                 to_save = [W]
                 pickle.dump(to_save, open("save_w.txt", "wb") )

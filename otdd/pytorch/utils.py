@@ -56,7 +56,7 @@ def process_device_arg(device):
         device = torch.device(device)
     else:
         pass
-    return device
+    return torch.device("cpu") #device
 
 
 def interleave(*a):

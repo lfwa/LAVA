@@ -29,9 +29,7 @@ import importlib
 from poi_util import poison_dataset,patching_test, VGG
 from torch.utils.data import Dataset, TensorDataset, DataLoader
 
-from vgg import vgg16
-from preact_resnet import PreActResNet18
-from resnet import ResNet18
+from models.preact_resnet import PreActResNet18
 
 
 # Load clean data
@@ -97,6 +95,8 @@ def get_OT_dual_sol(feature_extractor, trainloader, testloader, training_size=10
                                    tgt_dim = (3,resize,resize),
                                    p = 2,
                                    device='cuda')
+    else:
+        feature_cost = feature_extractor
 
     dist = DatasetDistance(trainloader, testloader,
                            inner_ot_method = 'exact',
